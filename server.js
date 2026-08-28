@@ -350,9 +350,8 @@ app.get("/api/checkins", (req, res) => {
 // =====================================
 
 app.listen(
-
     PORT,
-
+    "0.0.0.0",
     () => {
 
         console.log(
@@ -360,7 +359,7 @@ app.listen(
         );
 
         console.log(
-            `Server running at http://localhost:${PORT}`
+            `Server running on port ${PORT}`
         );
 
         console.log(
@@ -368,5 +367,4 @@ app.listen(
         );
 
     }
-
 );
