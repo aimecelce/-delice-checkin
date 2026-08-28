@@ -21,17 +21,21 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 // =====================================
-// MYSQL CONNECTION - FIXED FOR RAILWAY
+// ROOT ROUTE - FIX FOR RAILWAY
+// =====================================
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
+
+// =====================================
+// MYSQL CONNECTION
 // =====================================
 let db;
 
-// Check if we're on Railway (has DATABASE_URL)
 if (process.env.DATABASE_URL) {
-    // Railway provides a full MySQL URL
     db = mysql.createConnection(process.env.DATABASE_URL);
     console.log("🔗 Using Railway MySQL");
 } else {
-    // Local development
     db = mysql.createConnection({
         host: process.env.DB_HOST || "localhost",
         user: process.env.DB_USER || "root",
@@ -52,7 +56,6 @@ db.connect((err) => {
     }
     console.log("✅ Connected to Delice Check-in database!");
     
-    // Create table if it doesn't exist
     const createTable = `
         CREATE TABLE IF NOT EXISTS checkins (
             id INT AUTO_INCREMENT PRIMARY KEY,
