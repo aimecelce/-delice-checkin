@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Admin Login</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-family: Arial, sans-serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #120019,
+            #3d0755,
+            #16001f
+        );
+
+    color: white;
+}
+
+.login-box {
+
+    width: 90%;
+
+    max-width: 400px;
+
+    padding: 35px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,0.09);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.15);
+
+    backdrop-filter: blur(15px);
+}
+
+h1 {
+
+    text-align: center;
+
+    margin-bottom: 10px;
+}
+
+p {
+
+    text-align: center;
+
+    color: #cdb5d5;
+
+    margin-bottom: 30px;
+}
+
+input {
+
+    width: 100%;
+
+    padding: 14px;
+
+    margin-bottom: 15px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    font-size: 16px;
+}
+
+button {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    color: white;
+
+    font-weight: bold;
+
+    background:
+        linear-gradient(
+            90deg,
+            #974bff,
+            #d158ff
+        );
+}
+
+#message {
+
+    margin-top: 20px;
+
+    color: #ffaaaa;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-box">
+
+    <h1>Private Dashboard</h1>
+
+    <p>Admin login</p>
+
+
+    <input
+        type="text"
+        id="username"
+        placeholder="Username"
+    >
+
+
+    <input
+        type="password"
+        id="password"
+        placeholder="Password"
+    >
+
+
+    <button onclick="login()">
+
+        Login
+
+    </button>
+
+
+    <p id="message"></p>
+
+</div>
+
+
+<script>
+
+async function login() {
+
+    const username =
+        document.getElementById(
+            "username"
+        ).value;
+
+    const password =
+        document.getElementById(
+            "password"
+        ).value;
+
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/admin-login",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        username: username,
+
+                        password: password
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            message.textContent =
+                data.message;
+
+            return;
+
+        }
+
+
+        sessionStorage.setItem(
+            "adminLoggedIn",
+            "true"
+        );
+
+
+        window.location.href =
+            "admin.html";
+
+
+    } catch (error) {
+
+        message.textContent =
+            "Could not connect to server.";
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>

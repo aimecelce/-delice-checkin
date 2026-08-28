@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>For Delice</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #120019,
+                    #3d0755,
+                    #16001f
+                );
+
+            overflow-x: hidden;
+        }
+
+
+        main {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 20px;
+        }
+
+
+        .page {
+
+            display: none;
+
+            width: 100%;
+
+            max-width: 650px;
+        }
+
+
+        .page.active {
+
+            display: block;
+
+            animation:
+                appear 0.7s ease;
+        }
+
+
+        .card {
+
+            padding:
+                50px 35px;
+
+            text-align: center;
+
+            border-radius: 30px;
+
+            background:
+                rgba(255, 255, 255, 0.09);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.18);
+
+            backdrop-filter:
+                blur(20px);
+
+            box-shadow:
+                0 20px 70px
+                rgba(0, 0, 0, 0.45);
+        }
+
+
+        .little-text {
+
+            color: #d9a8ef;
+
+            margin-bottom: 10px;
+
+            font-size: 1rem;
+        }
+
+
+        h1 {
+
+            font-size: 2.5rem;
+
+            margin-bottom: 15px;
+        }
+
+
+        .subtitle {
+
+            font-size: 1.4rem;
+
+            color: #e2b2ff;
+        }
+
+
+        .description {
+
+            color: #d0d0d0;
+
+            line-height: 1.7;
+
+            margin-top: 20px;
+        }
+
+
+        button {
+
+            border: none;
+
+            cursor: pointer;
+
+            margin-top: 30px;
+
+            padding:
+                15px 35px;
+
+            border-radius: 30px;
+
+            font-size: 1rem;
+
+            font-weight: bold;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #974bff,
+                    #d158ff
+                );
+
+            transition:
+                0.3s;
+        }
+
+
+        button:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 10px 30px
+                rgba(200, 80, 255, 0.4);
+        }
+
+
+        textarea {
+
+            width: 100%;
+
+            height: 140px;
+
+            margin-top: 25px;
+
+            padding: 15px;
+
+            border: none;
+
+            outline: none;
+
+            border-radius: 15px;
+
+            resize: none;
+
+            font-size: 1rem;
+
+            color: white;
+
+            background:
+                rgba(0, 0, 0, 0.25);
+        }
+
+
+        textarea::placeholder {
+
+            color: #aaa;
+        }
+
+
+        .moods {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            margin-top: 25px;
+        }
+
+
+        .mood {
+
+            width: 60px;
+
+            height: 60px;
+
+            padding: 0;
+
+            margin: 0;
+
+            font-size: 2rem;
+
+            background:
+                rgba(255, 255, 255, 0.1);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.15);
+        }
+
+
+        .mood:hover {
+
+            background:
+                rgba(170, 80, 255, 0.5);
+        }
+
+
+        .mood.selected {
+
+            background:
+                #a64cff;
+
+            transform:
+                scale(1.15);
+
+            box-shadow:
+                0 5px 20px
+                rgba(170, 70, 255, 0.5);
+        }
+
+
+        label {
+
+            display: block;
+
+            text-align: left;
+
+            margin-top: 25px;
+
+            font-weight: bold;
+
+            color: #eeeeee;
+        }
+
+
+        select {
+
+            width: 100%;
+
+            margin-top: 10px;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            outline: none;
+
+            font-size: 1rem;
+
+            background: white;
+
+            color: #222;
+        }
+
+
+        .water {
+
+            font-size: 5rem;
+
+            animation:
+                float 3s infinite;
+        }
+
+
+        .reminder {
+
+            margin-top: 30px;
+        }
+
+
+        .reminder p {
+
+            margin:
+                18px 0;
+
+            font-size: 1.1rem;
+
+            line-height: 1.5;
+        }
+
+
+        .reminder h2 {
+
+            color: #e7b7ff;
+
+            font-size: 1.8rem;
+
+            margin-top: 25px;
+        }
+
+
+        .final {
+
+            color: #dddddd;
+
+            line-height: 1.8;
+
+            margin-top: 20px;
+        }
+
+
+        .background span {
+
+            position: fixed;
+
+            bottom: -100px;
+
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.07
+                );
+
+            animation:
+                bubbles
+                15s
+                linear
+                infinite;
+
+            pointer-events: none;
+        }
+
+
+        .background span:nth-child(1) {
+
+            left: 10%;
+        }
+
+
+        .background span:nth-child(2) {
+
+            left: 30%;
+
+            width: 55px;
+
+            height: 55px;
+
+            animation-delay: 3s;
+        }
+
+
+        .background span:nth-child(3) {
+
+            left: 50%;
+
+            animation-delay: 6s;
+        }
+
+
+        .background span:nth-child(4) {
+
+            left: 70%;
+
+            width: 65px;
+
+            height: 65px;
+
+            animation-delay: 2s;
+        }
+
+
+        .background span:nth-child(5) {
+
+            left: 90%;
+
+            animation-delay: 8s;
+        }
+
+
+        @keyframes appear {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(25px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        @keyframes float {
+
+            0% {
+
+                transform:
+                    translateY(0);
+            }
+
+            50% {
+
+                transform:
+                    translateY(-15px);
+            }
+
+            100% {
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        @keyframes bubbles {
+
+            0% {
+
+                transform:
+                    translateY(0);
+
+                opacity: 0;
+            }
+
+            20% {
+
+                opacity: 1;
+            }
+
+            100% {
+
+                transform:
+                    translateY(-120vh);
+
+                opacity: 0;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .card {
+
+                padding:
+                    40px 20px;
+            }
+
+
+            h1 {
+
+                font-size:
+                    1.9rem;
+            }
+
+
+            .subtitle {
+
+                font-size:
+                    1.2rem;
+            }
+
+
+            .mood {
+
+                width:
+                    50px;
+
+                height:
+                    50px;
+
+                font-size:
+                    1.5rem;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- BACKGROUND BUBBLES -->
+
+    <div class="background">
+
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </div>
+
+
+    <main>
+
+
+        <!-- =========================
+             PAGE 1
+        ========================== -->
+
+        <section
+            class="page active"
+            id="welcomePage"
+        >
+
+            <div class="card">
+
+                <p class="little-text">
+
+                    A little check-in for
+
+                </p>
+
+
+                <h1>
+
+                    DELICE HIRWA
+
+                </h1>
+
+
+                <p class="subtitle">
+
+                    How are you today? ✨
+
+                </p>
+
+
+                <p class="description">
+
+                    Before anything else,
+                    take a small moment for yourself.
+
+                </p>
+
+
+                <button
+                    onclick="showPage('dayPage')"
+                >
+
+                    ENTER →
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             PAGE 2
+        ========================== -->
+
+        <section
+            class="page"
+            id="dayPage"
+        >
+
+            <div class="card">
+
+                <h1>
+
+                    How was your day? 🌸
+
+                </h1>
+
+
+                <p class="description">
+
+                    Choose the feeling that best
+                    describes your day.
+
+                </p>
+
+
+                <div class="moods">
+
+
+                    <button
+                        class="mood"
+                        onclick="
+                            chooseMood(
+                                this,
+                                'Amazing 😄'
+                            )
+                        "
+                    >
+
+                        😄
+
+                    </button>
+
+
+                    <button
+                        class="mood"
+                        onclick="
+                            chooseMood(
+                                this,
+                                'Good 😊'
+                            )
+                        "
+                    >
+
+                        😊
+
+                    </button>
+
+
+                    <button
+                        class="mood"
+                        onclick="
+                            chooseMood(
+                                this,
+                                'Okay 😐'
+                            )
+                        "
+                    >
+
+                        😐
+
+                    </button>
+
+
+                    <button
+                        class="mood"
+                        onclick="
+                            chooseMood(
+                                this,
+                                'Not great 😔'
+                            )
+                        "
+                    >
+
+                        😔
+
+                    </button>
+
+
+                    <button
+                        class="mood"
+                        onclick="
+                            chooseMood(
+                                this,
+                                'Sad 😢'
+                            )
+                        "
+                    >
+
+                        😢
+
+                    </button>
+
+
+                </div>
+
+
+                <textarea
+                    id="dayAnswer"
+                    placeholder="Tell me a little about your day..."
+                ></textarea>
+
+
+                <button
+                    onclick="goToQuestions()"
+                >
+
+                    CONTINUE →
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             PAGE 3
+        ========================== -->
+
+        <section
+            class="page"
+            id="questionsPage"
+        >
+
+            <div class="card">
+
+                <h1>
+
+                    A few little questions 💭
+
+                </h1>
+
+
+                <label>
+
+                    How are you feeling right now?
+
+                </label>
+
+
+                <textarea
+                    id="feeling"
+                    placeholder="Tell me honestly..."
+                ></textarea>
+
+
+                <label>
+
+                    Did you eat today? 🍽️
+
+                </label>
+
+
+                <select id="ate">
+
+                    <option value="">
+
+                        Choose one
+
+                    </option>
+
+
+                    <option value="Yes">
+
+                        Yes 😊
+
+                    </option>
+
+
+                    <option value="A little">
+
+                        A little
+
+                    </option>
+
+
+                    <option value="Not really">
+
+                        Not really
+
+                    </option>
+
+                </select>
+
+
+                <label>
+
+                    Did you get enough rest? 😴
+
+                </label>
+
+
+                <select id="rest">
+
+                    <option value="">
+
+                        Choose one
+
+                    </option>
+
+
+                    <option value="Yes">
+
+                        Yes 😌
+
+                    </option>
+
+
+                    <option value="A little">
+
+                        A little
+
+                    </option>
+
+
+                    <option value="No">
+
+                        No 😩
+
+                    </option>
+
+                </select>
+
+
+                <button
+                    onclick="goToReminder()"
+                >
+
+                    CONTINUE →
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             PAGE 4
+        ========================== -->
+
+        <section
+            class="page"
+            id="reminderPage"
+        >
+
+            <div class="card">
+
+                <div class="water">
+
+                    💧
+
+                </div>
+
+
+                <h1>
+
+                    One little reminder
+
+                </h1>
+
+
+                <div class="reminder">
+
+
+                    <p>
+
+                        REMEMBER TO DRINK SOME WATER 💧
+
+                    </p>
+
+
+                    <p>
+
+                        DON'T GET ANXIETY.
+
+                    </p>
+
+
+                    <p>
+
+                        TAKE A DEEP BREATH.
+
+                    </p>
+
+
+                    <p>
+
+                        AND REMEMBER...
+
+                    </p>
+
+
+                    <h2>
+
+                        GOD IS WITH YOU ✨
+
+                    </h2>
+
+
+                </div>
+
+
+                <button
+                    onclick="showPage('finalPage')"
+                >
+
+                    I WILL REMEMBER
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             PAGE 5
+        ========================== -->
+
+        <section
+            class="page"
+            id="finalPage"
+        >
+
+            <div class="card">
+
+
+                <h1>
+
+                    Thank You, Delice ✨
+
+                </h1>
+
+
+                <p class="final">
+
+                    Whatever today looked like,
+                    you made it through.
+
+                </p>
+
+
+                <p class="final">
+
+                    Take things one step at a time.
+                    You don't have to figure
+                    everything out today.
+
+                </p>
+
+
+                <p class="final">
+
+                    Be kind to yourself. 🌸
+
+                </p>
+
+
+                <h2>
+
+                    Take care of yourself
+
+                </h2>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+
+        // =================================
+        // SELECTED MOOD
+        // =================================
+
+        let selectedMood = "";
+
+
+
+        // =================================
+        // CHANGE PAGE
+        // =================================
+
+        function showPage(pageId) {
+
+            const pages =
+                document.querySelectorAll(".page");
+
+
+            pages.forEach(
+                function(page) {
+
+                    page.classList.remove("active");
+
+                }
+            );
+
+
+            document
+                .getElementById(pageId)
+                .classList.add("active");
+
+
+            window.scrollTo({
+
+                top: 0,
+
+                behavior: "smooth"
+
+            });
+
+        }
+
+
+
+        // =================================
+        // SELECT MOOD
+        // =================================
+
+        function chooseMood(button, mood) {
+
+            const moodButtons =
+                document.querySelectorAll(".mood");
+
+
+            moodButtons.forEach(
+                function(btn) {
+
+                    btn.classList.remove("selected");
+
+                }
+            );
+
+
+            button.classList.add("selected");
+
+
+            selectedMood = mood;
+
+        }
+
+
+
+        // =================================
+        // PAGE 2 → PAGE 3
+        // =================================
+
+        function goToQuestions() {
+
+            const dayAnswer =
+                document
+                .getElementById("dayAnswer")
+                .value
+                .trim();
+
+
+            if (selectedMood === "") {
+
+                alert(
+                    "Please choose how your day felt."
+                );
+
+                return;
+
+            }
+
+
+            if (dayAnswer === "") {
+
+                alert(
+                    "Tell me a little about your day."
+                );
+
+                return;
+
+            }
+
+
+            showPage("questionsPage");
+
+        }
+
+
+
+        // =================================
+        // PAGE 3 → SAVE → PAGE 4
+        // =================================
+
+        async function goToReminder() {
+
+
+            // Get answers
+
+            const feeling =
+                document
+                .getElementById("feeling")
+                .value
+                .trim();
+
+
+            const ate =
+                document
+                .getElementById("ate")
+                .value;
+
+
+            const rest =
+                document
+                .getElementById("rest")
+                .value;
+
+
+            const dayAnswer =
+                document
+                .getElementById("dayAnswer")
+                .value
+                .trim();
+
+
+
+            // =================================
+            // VALIDATION
+            // =================================
+
+            if (selectedMood === "") {
+
+                alert(
+                    "Please choose your mood."
+                );
+
+                return;
+
+            }
+
+
+            if (dayAnswer === "") {
+
+                alert(
+                    "Please tell me about your day."
+                );
+
+                return;
+
+            }
+
+
+            if (feeling === "") {
+
+                alert(
+                    "Please tell me how you are feeling."
+                );
+
+                return;
+
+            }
+
+
+            if (ate === "") {
+
+                alert(
+                    "Please answer the food question."
+                );
+
+                return;
+
+            }
+
+
+            if (rest === "") {
+
+                alert(
+                    "Please answer the rest question."
+                );
+
+                return;
+
+            }
+
+
+
+            // =================================
+            // SEND DATA TO NODE.JS
+            // =================================
+
+            try {
+
+                console.log(
+                    "Sending check-in..."
+                );
+
+
+                const response =
+                    await fetch(
+                        "/api/checkin",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    mood:
+                                        selectedMood,
+
+                                    dayAnswer:
+                                        dayAnswer,
+
+                                    feeling:
+                                        feeling,
+
+                                    ate:
+                                        ate,
+
+                                    rest:
+                                        rest
+
+                                })
+
+                        }
+                    );
+
+
+
+                const data =
+                    await response.json();
+
+
+
+                console.log(
+                    "Server response:",
+                    data
+                );
+
+
+
+                // =================================
+                // SERVER ERROR
+                // =================================
+
+                if (!response.ok) {
+
+                    alert(
+                        data.message ||
+                        "Something went wrong while saving your answers."
+                    );
+
+                    return;
+
+                }
+
+
+
+                // =================================
+                // SUCCESS
+                // =================================
+
+                console.log(
+                    "Check-in successfully saved!"
+                );
+
+
+                showPage(
+                    "reminderPage"
+                );
+
+
+            } catch (error) {
+
+
+                console.error(
+                    "Connection error:",
+                    error
+                );
+
+
+                alert(
+                    "Could not send your answers. Please make sure the server is running and try again."
+                );
+
+            }
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Delice Check-ins</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            min-height: 100vh;
+
+            padding: 30px 20px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #120019,
+                    #3d0755,
+                    #16001f
+                );
+        }
+
+
+        .container {
+
+            width: 100%;
+
+            max-width: 900px;
+
+            margin: auto;
+        }
+
+
+        header {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+
+        header h1 {
+
+            font-size: 2.2rem;
+
+            margin-bottom: 10px;
+        }
+
+
+        header p {
+
+            color: #d5b5df;
+        }
+
+
+        .checkin {
+
+            background:
+                rgba(255,255,255,0.09);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.15);
+
+            border-radius: 20px;
+
+            padding: 25px;
+
+            margin-bottom: 20px;
+
+            backdrop-filter: blur(15px);
+        }
+
+
+        .checkin h2 {
+
+            color: #e0aaff;
+
+            margin-bottom: 20px;
+        }
+
+
+        .row {
+
+            margin-bottom: 18px;
+        }
+
+
+        .label {
+
+            display: block;
+
+            font-size: 0.85rem;
+
+            color: #cda9d8;
+
+            margin-bottom: 6px;
+        }
+
+
+        .answer {
+
+            line-height: 1.6;
+
+            color: #ffffff;
+
+            white-space: pre-wrap;
+        }
+
+
+        .date {
+
+            color: #aaa;
+
+            font-size: 0.85rem;
+
+            margin-top: 20px;
+
+            padding-top: 15px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.1);
+        }
+
+
+        .empty {
+
+            text-align: center;
+
+            padding: 50px 20px;
+
+            color: #bbb;
+        }
+
+
+        .refresh {
+
+            display: block;
+
+            margin: 0 auto 30px;
+
+            padding: 12px 25px;
+
+            border: none;
+
+            border-radius: 25px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #974bff,
+                    #d158ff
+                );
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+
+        .refresh:hover {
+
+            transform: translateY(-2px);
+        }
+
+
+        .loading {
+
+            text-align: center;
+
+            color: #ccc;
+
+            padding: 30px;
+        }
+
+
+        .error {
+
+            text-align: center;
+
+            color: #ffaaaa;
+
+            padding: 30px;
+        }
+
+
+        @media (max-width: 600px) {
+
+            body {
+
+                padding: 20px 12px;
+            }
+
+
+            header h1 {
+
+                font-size: 1.7rem;
+            }
+
+
+            .checkin {
+
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <header>
+
+            <h1>
+
+                Delice Check-ins
+
+            </h1>
+
+
+            <p>
+
+                Private check-in responses
+
+            </p>
+
+        </header>
+
+
+        <button
+            class="refresh"
+            onclick="loadCheckins()"
+        >
+
+            Refresh Answers
+
+        </button>
+
+
+        <div id="checkins">
+
+            <div class="loading">
+
+                Loading check-ins...
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+        if (
+    sessionStorage.getItem("adminLoggedIn") !== "true"
+) {
+
+    window.location.href = "admin-login.html";
+
+}
+
+
+        async function loadCheckins() {
+
+            const container =
+                document.getElementById(
+                    "checkins"
+                );
+
+
+            container.innerHTML = `
+
+                <div class="loading">
+
+                    Loading check-ins...
+
+                </div>
+
+            `;
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/checkins"
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Could not load check-ins."
+                    );
+
+                }
+
+
+                if (
+                    !data.checkins ||
+                    data.checkins.length === 0
+                ) {
+
+                    container.innerHTML = `
+
+                        <div class="empty">
+
+                            No check-ins yet.
+
+                        </div>
+
+                    `;
+
+                    return;
+
+                }
+
+
+                container.innerHTML =
+                    data.checkins
+                    .map(
+                        checkin => `
+
+                            <div class="checkin">
+
+                                <h2>
+
+                                    Check-in #${checkin.id}
+
+                                </h2>
+
+
+                                <div class="row">
+
+                                    <span class="label">
+
+                                        Mood
+
+                                    </span>
+
+                                    <div class="answer">
+
+                                        ${escapeHTML(
+                                            checkin.mood
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+
+                                    <span class="label">
+
+                                        How was her day?
+
+                                    </span>
+
+                                    <div class="answer">
+
+                                        ${escapeHTML(
+                                            checkin.day_answer
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+
+                                    <span class="label">
+
+                                        How is she feeling?
+
+                                    </span>
+
+                                    <div class="answer">
+
+                                        ${escapeHTML(
+                                            checkin.feeling
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+
+                                    <span class="label">
+
+                                        Did she eat?
+
+                                    </span>
+
+                                    <div class="answer">
+
+                                        ${escapeHTML(
+                                            checkin.ate
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+
+                                    <span class="label">
+
+                                        Did she rest?
+
+                                    </span>
+
+                                    <div class="answer">
+
+                                        ${escapeHTML(
+                                            checkin.rest
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="date">
+
+                                    Submitted:
+                                    ${formatDate(
+                                        checkin.created_at
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        `
+                    )
+                    .join("");
+
+
+            } catch (error) {
+
+                console.error(error);
+
+
+                container.innerHTML = `
+
+                    <div class="error">
+
+                        Could not load the answers.
+
+                        <br><br>
+
+                        Make sure your Node.js
+                        server is running.
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+
+        function escapeHTML(value) {
+
+            if (value === null ||
+                value === undefined) {
+
+                return "";
+
+            }
+
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+
+        function formatDate(date) {
+
+            return new Date(date)
+                .toLocaleString();
+
+        }
+
+
+
+        loadCheckins();
+
+    </script>
+
+
+</body>
+
+</html>
